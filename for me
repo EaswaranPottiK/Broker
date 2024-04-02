@@ -21,3 +21,13 @@ stopped at 37 mins
 
 installed react-icons
 
+we did init inside root of folder and not in api because - the render platform root of folder and consider 
+both frontend and backend
+installed express
+
+put this "type":"module", inside pakage.json to use import express from 'express'
+ie instead of require
+
+mv .git ../
+move your github repository one folder backwords
+
