@@ -23,11 +23,15 @@ installed react-icons
 
 we did init inside root of folder and not in api because - the render platform root of folder and consider 
 both frontend and backend
-installed express
+installed express mongoose
+username easwaranpottiak
+password 92DQsCCA0TUNwNZu
 
 put this "type":"module", inside pakage.json to use import express from 'express'
 ie instead of require
 
 mv .git ../
 move your github repository one folder backwords
+
+
 
