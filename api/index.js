@@ -15,6 +15,16 @@ app.use(express.json())
 app.use('/api/user/',userRoutes)
 app.use('/api/user/',authRoutes)
 
+app.use((err, req, res, next)=>{
+    const statusCode = err.statusCode ||500;
+    const message = err.message ||"Internal server error"
+    return res.status(statusCode).json({
+        success:false,
+        statusCode, // after es6 if variable and key have same name then we can remove one of them
+        message
+    })
+})
+
 app.listen(3000, ()=>{
     console.log("Server is running at port 3000!")
 })
