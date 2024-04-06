@@ -53,7 +53,7 @@ const SignUp = () => {
       </form>
       <div className='flex mt-5 gap-2'>
         <p>Have and account?</p>
-        <Link to={"/"}><span className='text-blue-700'>SignIn</span></Link>
+        <Link to={"/sign-in"}><span className='text-blue-700'>Sign In</span></Link>
       </div>
       {error ? <p className='text-red-700'>{error}</p>:""}
     </div>
