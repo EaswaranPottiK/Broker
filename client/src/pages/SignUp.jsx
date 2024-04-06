@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import {Link,redirect} from 'react-router-dom'
-
+import { useState } from 'react'
+import {Link, useNavigate} from 'react-router-dom'
 
 const SignUp = () => {
   const [formData,setFormData] = useState({})
   const [error,setError] = useState(null)
   const [loading,setLoading] =useState(false)
+  const navigate = useNavigate()
   const handleChange = (e) =>{
     setFormData({
       ...formData,
@@ -31,13 +31,7 @@ const SignUp = () => {
       setError("Duplicate record found !")
       return
     } 
-    // const navigate = useNavigate()
-    // navigate('/sign-in') 
-    else{
-      console.log('code is here')
-      return redirect("/");
-    }
-    
+    navigate('/sign-in')
   }
     catch(error){
       setError(error)
