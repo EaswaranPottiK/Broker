@@ -39,6 +39,54 @@ const signin = async(req,res,next) =>{
     }
 }
 
+const google = async(req,res,next) =>{
+    try{
+        const user = await User.findOne({email:req.body.email})
+        if (user){
+            const token = jwt.sign({id:user._id},process.env.JWT_SECRET)
+            const {password:pass,...rest} = user._doc // we are using pass here because i have already defined a const called password          
+            res
+            .cookie('access_token',token,{httpOnly:true})
+            .status(200)
+            .json(rest)   
+        }
+        else{
+            // if user does not exist then create one
+            const generatedPassword = Math.random().toString(36).slice(-8) // slice -8 gives last 8 char 
+            const hashedPassword = bcrypt.hashSync(generatedPassword)
+            const newUser = new User ({
+                //name: easwarn potti to easwaranpotti+ a number to make it unique 
+                userName:String(req.body.name).split(' ').join('').toLowerCase().concat(Math.floor(Math.random()*10000)),
+                email:req.body.email, 
+                password:hashedPassword,
+                avatar:req.body.photo
+            })
+            await newUser.save()
+            const token = jwt.sign({id:newUser._id},process.env.JWT_SECRET)
+            console.log(user)
+            const {password:pass,...rest} = newUser 
+            console.log(rest)
+            res
+            .cookie('access_token',token,{httpOnly:true})
+            .status(200)
+            .json(rest)  
+        }
+    }
+    catch(error){
+        next(error)
+    }
+    
+}
+
+const signout = async(req,res,next) =>{
+    try{
+        res.clearCookie('access_token')
+        res.status(200).json({"message":"user signed out"})
+    }
+    catch(error){
+        next(error)
+    }
+}
 
 
-export default {signup, signin}
+export default {signup, signin, signout,google}
