@@ -37,6 +37,7 @@ target 2.30
 
 study use navigate
 
-
+redux persists : helps to store user data on local storage
+npm i redux-persist
 
 
