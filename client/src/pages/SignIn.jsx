@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
+import {useDispatch, useSelector  } from 'react-redux'
+import {signInStart,signInSuccess,signInFailure} from '../redux/user/userSlice'
 
 const SignIn = () => {
   const [formData,setFormData] = useState({})
-  const [error,setError] = useState(null)
-  const [loading,setLoading] =useState(false)
+  const {loading, error} = useSelector((state)=>state.user)
+
   const navigate = useNavigate()
+  const dispatch = useDispatch();
   const handleChange = (e) =>{
     setFormData({
       ...formData,
@@ -14,9 +17,9 @@ const SignIn = () => {
   }
   
   const handleSubmit =async (e)=>{
-    e.preventDefault();
+    e.preventDefault(true);
     try{
-      setLoading(true)
+    dispatch(signInStart())
     const res = await fetch('api/auth/signin/',{
       method:'POST',
       headers:{
@@ -25,17 +28,16 @@ const SignIn = () => {
       body:JSON.stringify(formData) //we use stringify to make this more secure 
     })
     const data = await res.json();
-    setLoading(false)
-    setError("")
+
     if (data.success===false){
-      setError("Duplicate record found !")
+      dispatch(signInFailure(data.message))
       return
     } 
+    dispatch(signInSuccess(data))
     navigate('/')
   }
     catch(error){
-      setError(error)
-      setLoading(false)
+      dispatch(signInFailure(error.message))
     }
     
     
